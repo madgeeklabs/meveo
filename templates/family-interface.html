@@ -54,7 +54,7 @@
 <script>
 var pintarUnArrayDeImagenes = function (){
     <% _.each (datas, function(data) { %>
-        var html = '<img src=" <%= data %> " alt="Nuestro dia en la hackaton" class="photo" />';
+        var html = '<a href=<%= data %> ><img src=" <%= data %> " alt="Nuestro dia en la hackaton" class="photo" /></a>';
         $('#image-grid').append(html);
         <% }); %>
 };
