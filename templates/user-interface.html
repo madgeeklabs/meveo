@@ -66,8 +66,12 @@
         var request = $.ajax({
             url: "/api/remove",
             type: "post",
-            data: jsonData
-        }); 
+            data: jsonData,
+            success:function(data){
+                location.reload();
+            }
+        });
+         
         $('#selected-image').attr('src', this.src);
     });
     </script>
