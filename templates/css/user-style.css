@@ -53,20 +53,77 @@ body {
 	background: -ms-linear-gradient(left,  #ff0e00 0%,#ff0e00 50%,#0ca651 50%,#0ca651 100%); /* IE10+ */
 	background: linear-gradient(to right,  #ff0e00 0%,#ff0e00 50%,#0ca651 50%,#0ca651 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0e00', endColorstr='#0ca651',GradientType=1 ); /* IE6-9 */
-
 }
 
 /* DESK */
 .desk {
-	margin: 0 auto;
-	width: 90%;
+	width: 80%;
+	margin-bottom: 20px;
 }
 
 /* BIN DROP */
 #bin {
 	float: left;
 	display: inline-block;
-	margin: 0 5%;
+	margin: 0 6%;
+}
+
+#bin, #save {
+	margin-top: 120px;
+}
+
+#selected-img {
+	position: relative;
+	background-color: #EFEFEF;
+	padding: 15px;
+	margin: 0 auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #fff;
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4), inset 0 0 50px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4), inset 0 0 50px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.4), inset 0 0 50px rgba(0, 0, 0, 0.2);
+}
+
+#selected-img:before, #selected-img:after{
+	position: absolute;
+	width: 40%;
+	height: 10px;
+	content: ' ';
+	left: 12px;
+	bottom: 12px;
+	background: transparent;
+	-webkit-transform: skew(-5deg) rotate(-5deg);
+	-moz-transform: skew(-5deg) rotate(-5deg);
+	-ms-transform: skew(-5deg) rotate(-5deg);
+	-o-transform: skew(-5deg) rotate(-5deg);
+	transform: skew(-5deg) rotate(-5deg);
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+	z-index: -1;
+}
+
+#selected-img:after{
+	left: auto;
+	right: 12px;
+	-webkit-transform: skew(5deg) rotate(5deg);
+	-moz-transform: skew(5deg) rotate(5deg);
+	-ms-transform: skew(5deg) rotate(5deg);
+	-o-transform: skew(5deg) rotate(5deg);
+	transform: skew(5deg) rotate(5deg);
+}
+
+#selected-img img {
+	width: 360px;
+}
+
+#save img {
+	width: 160px;
+}
+
+#bin img {
+	width: 140px;
 }
 
 #bin img{
@@ -95,9 +152,12 @@ body {
 
 #selected-img > p {
 	text-align: center;
+	font-family: Helvetica, Arial, sans-serif;
+	margin-bottom: 10px;
 }
 
 /* ACTUAL */
+
 
 /* SAVE DROP */
 
@@ -107,9 +167,9 @@ body {
 	clear: both;
 	overflow: auto;
 	margin: 0 auto;
-	padding: 20px;
+	padding: 8px;
 	margin-top: 20px;
-	background-color: #000;
+	background-color: #fff;
 }
 
 .photo {

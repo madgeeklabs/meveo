@@ -10,48 +10,70 @@
 <body>
     <header>
         <img class="logo-img" src="img/logo-meveo.png" alt="Logotipo Meveo" />
+        <div class="album-info">
+            <h2 class="album-title, text">Nuestro dia en Hack for Good</h2>
+            <h3 class="album-date, text">3 de Marzo de 2013</h3>
+        </div>
+        <div id="tags"><img src="img/tags.png" alt="etiquetas"></div>
         <div class="search-bar">
-            <div class="box">
+            <div id="claim">
+                <p>Fotografía para la diversidad funcional</p>
+            </div>
+            <div class="box date">
                 <ul id="accordionMenu" class="collapsibleMenu">
-                    <li><a class="collapsed">Fecha</a>
+                    <li><a class="collapsed">Organizar por fecha</a>
                         <ul>
-                            <li><a href="#">Ninguna</a></li>
-                            <li><a href="#">Ultimos 30 dias</a></li>
-                            <li><a href="#">Esta semana</a></li>
-                            <li><a href="#">Este anyo</a></li>
+                            <li><a href="#">Hoy</a></li>
+                            <li><a href="#">Últimos 7 dias</a></li>
+                            <li><a href="#">Últimos 30 dias</a></li>
+                            <li><a href="#">Último año</a></li>
                         </ul>
                     </li>
                     <li class="footer"><span> </span></li>
                 </ul> 
             </div>
-            <div class="album-info">
-                <h2 class="album-title, text">Cumpleaños en el Retiro</h2>
-                <h3 class="album-date, text">3 de Marzo de 2013</h3>
-            </div>
-        </div>
-    </header>
-    <section id="image-grid" class="img-grid">
-    </section>
-    <script>
-        var pintarUnArrayDeImagenes = function (){
-            <% _.each (datas, function(data) { %>
-                var html = '<img src=" <%= data %> " alt="Nuestro dia en la hackaton" class="photo" />';
-                $('#image-grid').append(html);
-            <% }); %>
-        };
-
         
-        pintarUnArrayDeImagenes();
+        <div class="box">
+            <ul id="accordionMenu" class="collapsibleMenu">
+                <li><a class="collapsed">Seleccionar álbum</a>
+                    <ul>
+                        <li><a href="#"></a></li>
+                        <li><a href="#">Hackathon</a></li>
+                        <li><a href="#">Probando...</a></li>
+                        <li><a href="#">Vídeos</a></li>
+                    </ul>
+                </li>
+                <li class="footer"><span> </span></li>
+            </ul> 
+        </div>
+        </div>
+    </div>
+</header>
+<section id="image-grid" class="img-grid">
+</section>
+<script>
+var pintarUnArrayDeImagenes = function (){
+    <% _.each (datas, function(data) { %>
+        var html = '<img src=" <%= data %> " alt="Nuestro dia en la hackaton" class="photo" />';
+        $('#image-grid').append(html);
+        <% }); %>
+};
 
-            $(document).ready(function() {
+
+pintarUnArrayDeImagenes();
+
+$(document).ready(function() {
                     // Accordion effect
                     $('#accordionMenu > li > a.expanded + ul').slideToggle('medium');
                     $('#accordionMenu > li > a').click(function() {
                         $('#accordionMenu > li > a.expanded').not(this).toggleClass('expanded').toggleClass('collapsed').parent().find('> ul').slideToggle('medium');
                         $(this).toggleClass('expanded').toggleClass('collapsed').parent().find('> ul').slideToggle('medium');
                     });
-            });
+                });
 
-    </script>
+</script>
+<footer>
+    <p class="copyrigth-text">2013 © info@meveo.com - Hack for Goord / Madrid</p>
+</footer>
 </body>
 </html>
