@@ -49,6 +49,8 @@ define(['express','http','fs','module', 'path', 'web','johnny-five','child_proce
 			console.log('Child process exited with exit code ' + code);
 		});
 
+	}, 300000);
+
 	board = new five.Board();
 	console.log(board);
 
@@ -56,45 +58,41 @@ define(['express','http','fs','module', 'path', 'web','johnny-five','child_proce
 
 	// HANDLE HARDWARE CODE
 	board.on('ready', function(){
-			var val = 0;
-			button = new five.Button(4);
+		var val = 0;
+		button = new five.Button(4);
 
-			board.repl.inject({
-button: button
-});
+		board.repl.inject({button: button});
 
-			var sampler = new PulseSampler(board);
-			sampler.startSampling();
-			console.log("after Sample!!");
+		board.pinMode(12,1);    // pin 12 will feed the switch
+		board.digitalWrite(12,1);              // turn on pin 13 LED
 
-			button.on("down", function(){
-				streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg'), 
-				function (error, stdout, stderr) {
+		 var sampler = new PulseSampler(board);
+		 //sampler.startSampling();
+		 console.log("after Sample!!");
+
+		/*******************************/
+		button.on("down", function(){
+			streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg'), 
+			function (error, stdout, stderr) {
 				if (error) {
-				console.log(error.stack);
-				console.log('Error code: '+error.code);
-				console.log('Signal received: '+error.signal);
+					console.log(error.stack);
+					console.log('Error code: '+error.code);
+					console.log('Signal received: '+error.signal);
 				}
 				console.log('Child Process STDOUT: '+stdout);
 				console.log('Child Process STDERR: '+stderr);
-				}
+			}
 
-				streamer.on('exit', function (code) {
-					console.log('Child process exited with exit code ' + code);
-					});
-				});
-
-button.on("hold", function(){
-		console.log("HOLD!!!!");
+			streamer.on('exit', function (code) {
+				console.log('Child process exited with exit code ' + code);
+			});
 		});
 
-this.pinMode(13,1);
-
-this.loop(450, function() {
-		this.digitalWrite(13,(val = val ? 0 : 1 ));
+		button.on("hold", function(){
+			console.log("HOLD!!!!");
 		});
-});
-
+/********************************/
+	});
 
 return app;
 
@@ -115,13 +113,14 @@ var PulseSampler= function(board) {
 	this.BPM=0;
 	this.QS=false;
 
+/********************************/
 	this.board.pinMode(13,1);    // pin 13 will blink to your heartbeat!
 	this.board.pinMode(0,2);    // Analog Pulse read 
 
-	this.startSampling=startSampling;
         var that = this;
 
         // Read the pulse sensor. The parameter is the sample rate in milliseconds. Original value is 1ms
+	this.startSampling=startSampling;
 	function startSampling() {
 		console.log(".");
 		
@@ -184,6 +183,7 @@ var PulseSampler= function(board) {
 				}
 		});  // read the Pulse Sensor 
 
+/********************************/
 	}
 
-
+}
