@@ -63,12 +63,34 @@ body {
 }
 
 /* BIN DROP */
-#bin,
-#selected-img,
-#save {
+#bin {
 	float: left;
 	display: inline-block;
 	margin: 0 5%;
+}
+
+#bin img{
+ height:100px;
+}
+
+#selected-image{
+    height: 300px;
+}
+
+#selected-img {
+	display: inline-block;
+    margin:0px auto;
+	margin: 0 5%;
+}
+#save {
+	float: right;
+	display: inline-block;
+    height: 100px;
+	margin: 0 5%;
+}
+
+#save img{
+ height:100px;
 }
 
 #selected-img > p {
