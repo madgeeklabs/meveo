@@ -1,28 +1,18 @@
-var five = require('johnny-five'),board,button;
+var requirejs = require('requirejs');
 
-board = new five.Board();
-
-console.log(board);
-
-board.on('ready', function(){
-	var val = 0;
-	button = new five.Button(4);
-
-	board.repl.inject({
-		button: button
-	});
-
-	button.on("down", function(){
-		console.log('down');
-	});
-
-	button.on("hold", function(){
-		console.log("HOLD!!!!");
-	});
-
-	this.pinMode(13,1);
-	
-	this.loop(450, function() {
-		this.digitalWrite(13,(val = val ? 0 : 1 ));
-	});
+requirejs.config({
+    //Pass the top-level main.js/index.js require
+    //function to requirejs so that node modules
+    //are loaded relative to the top-level JS file.
+    baseUrl: __dirname,
+    nodeRequire: require
 });
+
+requirejs(['server','jquery'],function(server, $) {
+	$(function(){
+		var port = process.env.PORT || 5000;
+	  	server.listen(port);
+	  	console.log('Listening on port ' + port);
+  	});
+});
+
