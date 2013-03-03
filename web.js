@@ -1,5 +1,5 @@
 
-define (['fs','underscore','text!templates/plain.html','jquery'], function (fs, _, template, $){
+define (['fs','underscore','text!templates/family-interface.html','jquery'], function (fs, _, template, $){
 	var Web = function Web(){
 
 		this.draw = function (req,res){

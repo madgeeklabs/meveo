@@ -1,0 +1,18 @@
+#para saber estado del repositorio
+git status
+#hacer commit de un fichero
+git commit nombreDelFichero -m "mensaje"
+#hacer commit de todos los ficheros cambiados
+git commit -a -m "mensae"
+
+#subir a github
+git push origin master
+
+#ver log
+git log
+
+#agregar fichero uqe no existian en el repositorio
+git add nombreDelFichero
+
+#bajar cambios de github/origin
+git pull

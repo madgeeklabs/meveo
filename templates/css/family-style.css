@@ -1,0 +1,125 @@
+/* RESET */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+:focus {
+	outline: 0;
+}
+
+table {
+	border-collapse:collapse;
+	border-spacing: 0;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+
+a img, iframe {
+	border: none;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+input, textarea, select, button {
+	font-size: 100%;
+	font-family: inherit;
+}
+
+select {
+	margin: inherit;
+}
+
+/* MISC */
+
+.text {
+	font-family: Helvetica, arial,sans-serif;
+}
+
+/* Text */
+
+h1, h2, h3 {
+	color: #FFF;
+	letter-spacing: 1px;
+
+}
+
+h2 {
+	font-weight: bold;
+	text-align: center;
+}
+
+h3 {
+	text-align: center;
+}
+
+
+
+/* HEADER */
+
+header {
+	background-color: #00A9DB;
+	background-repeat: repeat-x;
+}
+
+.logo-img {
+	display: block;
+	width: 180px;
+	margin-left: 30px;
+	padding: 30px 0;
+}
+
+
+/* Search bar */
+
+.search-bar {
+	background-color: #313131;
+	padding: 10px 0;
+	border: 1px solid #121212;
+	padding-left: 27px;
+}
+
+.search-bar .text {
+	color: #818181;
+}
+
+.search-bar .box {
+	float: left;
+}
+
+
+.album-info {
+	display: inline-block;
+	border-left: 1px solid #FFF;
+	display: inline;
+	margin: 0 auto;
+}
+
+/* GRID */
+
+.img-grid {
+	margin: 0 auto;
+	margin: 20px 20px 0 20px;
+}
+
+.photo {
+	width: 260px;
+	float: left;
+	margin: 8px;
+}
+
+.photo:hover {
+	box-shadow: 5px;
+}

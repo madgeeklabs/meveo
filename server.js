@@ -8,6 +8,7 @@ define(['express','http','fs','module', 'path', 'web','johnny-five','child_proce
 	app.configure(function(){
 		app.use(express.bodyParser());
 		app.use(express.static(path.dirname(module.uri) + '/photos'));
+		app.use(express.static(path.dirname(module.uri) + '/templates'));
 	});
 
 	console.log('uri is: ' +  path.dirname(module.uri));
@@ -43,49 +44,49 @@ define(['express','http','fs','module', 'path', 'web','johnny-five','child_proce
 		streamer.on('exit', function (code) {
 			console.log('Child process exited with exit code ' + code);
 		});
-    }, 10000 );
+    }, 300000 );
 
 
 
-board = new five.Board();
-console.log(board);
+// board = new five.Board();
+// console.log(board);
 
 // HANDLE HARDWARE CODE
-board.on('ready', function(){
-	var val = 0;
-	button = new five.Button(4);
+// board.on('ready', function(){
+// 	var val = 0;
+// 	button = new five.Button(4);
 
-	board.repl.inject({
-		button: button
-	});
+// 	board.repl.inject({
+// 		button: button
+// 	});
 
-	button.on("down", function(){
-		streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg'), 
-		function (error, stdout, stderr) {
-			if (error) {
-				console.log(error.stack);
-				console.log('Error code: '+error.code);
-				console.log('Signal received: '+error.signal);
-			}
-			console.log('Child Process STDOUT: '+stdout);
-			console.log('Child Process STDERR: '+stderr);
-		}
+// 	button.on("down", function(){
+// 		streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg'), 
+// 		function (error, stdout, stderr) {
+// 			if (error) {
+// 				console.log(error.stack);
+// 				console.log('Error code: '+error.code);
+// 				console.log('Signal received: '+error.signal);
+// 			}
+// 			console.log('Child Process STDOUT: '+stdout);
+// 			console.log('Child Process STDERR: '+stderr);
+// 		}
 
-		streamer.on('exit', function (code) {
-			console.log('Child process exited with exit code ' + code);
-		});
-	});
+// 		streamer.on('exit', function (code) {
+// 			console.log('Child process exited with exit code ' + code);
+// 		});
+// 	});
 
-	button.on("hold", function(){
-		console.log("HOLD!!!!");
-	});
+// 	button.on("hold", function(){
+// 		console.log("HOLD!!!!");
+// 	});
 
-	this.pinMode(13,1);
+// 	this.pinMode(13,1);
 	
-	this.loop(450, function() {
-		this.digitalWrite(13,(val = val ? 0 : 1 ));
-	});
-});
+// 	this.loop(450, function() {
+// 		this.digitalWrite(13,(val = val ? 0 : 1 ));
+// 	});
+// });
 
 return app;
 

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="css/user-style.css">
+    <script src="./js/jquery-1.9.1.js"></script> 
+    <title>User Interface | Meveo</title>
+</head>
+<body>
+    <div id="desk">
+       <div id="bin">
+        <img src="img/empty-bin.png" alt="eliminar">
+        </div>
+       <div id="selected-img">
+        <p>Marzo 03</p>
+        <img src="img/retiro1.jpg" alt="imagen seleccionada">
+    </div>
+    <div id="save">
+        <img src="img/save.png" alt="guardar">
+    </div>
+</div>
+<section id="image-grid">
+    <script>
+    var pintarUnArrayDeImagenes = function (imgArray){
+        for(img in imgArray)    {
+            var html = '<img src="' + imgArray[img] + '" alt="Imágen del retiro" class="photo" />'
+            $('#image-grid').append(html);
+        }
+    }
+
+    var imgArray = []
+    for(var i = 1; i < 8; i++){
+        var str = "img/retiro" + i + ".jpg";
+        imgArray.push(str);
+    }
+    pintarUnArrayDeImagenes(imgArray);
+    </script>
+</section>
+</body>
+</html>

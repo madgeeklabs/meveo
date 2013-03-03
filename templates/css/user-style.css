@@ -1,0 +1,97 @@
+/* RESET */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+:focus {
+	outline: 0;
+}
+
+table {
+	border-collapse:collapse;
+	border-spacing: 0;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+
+a img, iframe {
+	border: none;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+input, textarea, select, button {
+	font-size: 100%;
+	font-family: inherit;
+}
+
+select {
+	margin: inherit;
+}
+
+/* MISC */
+
+body {
+	background: #ff0e00; /* Old browsers */
+	background: -moz-linear-gradient(left,  #ff0e00 0%, #ff0e00 50%, #0ca651 50%, #0ca651 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ff0e00), color-stop(50%,#ff0e00), color-stop(50%,#0ca651), color-stop(100%,#0ca651)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  #ff0e00 0%,#ff0e00 50%,#0ca651 50%,#0ca651 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  #ff0e00 0%,#ff0e00 50%,#0ca651 50%,#0ca651 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  #ff0e00 0%,#ff0e00 50%,#0ca651 50%,#0ca651 100%); /* IE10+ */
+	background: linear-gradient(to right,  #ff0e00 0%,#ff0e00 50%,#0ca651 50%,#0ca651 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0e00', endColorstr='#0ca651',GradientType=1 ); /* IE6-9 */
+
+}
+
+/* DESK */
+.desk {
+	margin: 0 auto;
+	width: 90%;
+}
+
+/* BIN DROP */
+#bin,
+#selected-img,
+#save {
+	float: left;
+	display: inline-block;
+	margin: 0 5%;
+}
+
+#selected-img > p {
+	text-align: center;
+}
+
+/* ACTUAL */
+
+/* SAVE DROP */
+
+
+/* GRID */
+#image-grid {
+	clear: both;
+	overflow: auto;
+	margin: 0 auto;
+	padding: 20px;
+	margin-top: 20px;
+	background-color: #000;
+}
+
+.photo {
+	width: 160px;
+	float: left;
+	margin: 8px;
+}

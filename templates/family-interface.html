@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="./css/family-style.css">
+    <link rel="stylesheet" type="text/css" href="./css/collapsible-menu.css">
+    <script src="./js/jquery-1.9.1.js"></script> 
+    <title>Family Interface | Meveo</title>
+</head>
+<body>
+    <header>
+        <img class="logo-img" src="img/logo-meveo.png" alt="Logotipo Meveo" />
+        <div class="search-bar">
+            <div class="box">
+                <ul id="accordionMenu" class="collapsibleMenu">
+                    <li><a class="collapsed">Fecha</a>
+                        <ul>
+                            <li><a href="#">Ninguna</a></li>
+                            <li><a href="#">Ultimos 30 dias</a></li>
+                            <li><a href="#">Esta semana</a></li>
+                            <li><a href="#">Este anyo</a></li>
+                        </ul>
+                    </li>
+                    <li class="footer"><span> </span></li>
+                </ul> 
+            </div>
+            <div class="album-info">
+                <h2 class="album-title, text">Cumpleaños en el Retiro</h2>
+                <h3 class="album-date, text">3 de Marzo de 2013</h3>
+            </div>
+        </div>
+    </header>
+    <section id="image-grid" class="img-grid">
+    </section>
+    <script>
+        var pintarUnArrayDeImagenes = function (){
+            <% _.each (datas, function(data) { %>
+                var html = '<img src=" <%= data %> " alt="Nuestro dia en la hackaton" class="photo" />';
+                $('#image-grid').append(html);
+            <% }); %>
+        };
+
+        
+        pintarUnArrayDeImagenes();
+
+            $(document).ready(function() {
+                    // Accordion effect
+                    $('#accordionMenu > li > a.expanded + ul').slideToggle('medium');
+                    $('#accordionMenu > li > a').click(function() {
+                        $('#accordionMenu > li > a.expanded').not(this).toggleClass('expanded').toggleClass('collapsed').parent().find('> ul').slideToggle('medium');
+                        $(this).toggleClass('expanded').toggleClass('collapsed').parent().find('> ul').slideToggle('medium');
+                    });
+            });
+
+    </script>
+</body>
+</html>
