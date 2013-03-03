@@ -13,7 +13,7 @@
         </div>
        <div id="selected-img">
         <p>Marzo 03</p>
-        <img src="img/retiro1.jpg" id="selected-image" alt="imagen seleccionada">
+        <img src="" id="selected-image" alt="imagen seleccionada">
     </div>
     <div id="save">
         <img src="img/save.png" alt="guardar">
@@ -24,6 +24,10 @@
     <% _.each (datas, function(data, index) { %>
         var html = '<img src="<%= data %>" alt="<%= data %>" class="photo" data-index="<%= index %>"/>';
         $('#image-grid').append(html);
+        <% if (index == 0) { %>
+            $('#selected-image').attr('src','<%= data %>');
+            $('#selected-image').attr('alt','<%= data %>');
+        <% } %>
     <% }); %>
 
     $('.photo').on('click', function(){
