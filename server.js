@@ -52,7 +52,7 @@ define(['express','http','fs','module', 'path', 'web','johnny-five','child_proce
 board = new five.Board();
 console.log(board);
 
-HANDLE HARDWARE CODE
+//HANDLE HARDWARE CODE
 board.on('ready', function(){
 	var val = 0;
 	button = new five.Button(4);
