@@ -13,7 +13,8 @@
         </div>
        <div id="selected-img">
         <p>Marzo 03</p>
-        <img src="" id="selected-image" alt="imagen seleccionada">
+        <img src="" id="selected-image" alt="imagen seleccionada" style="display:none" >
+        <video src="" id="selected-video" controls="true" alt="" class="photo" style="display:none"></video>
     </div>
     <div id="save">
         <img src="img/save.png" alt="guardar">
@@ -21,18 +22,43 @@
 </div>
 <section id="image-grid">
     <script>
+        String.prototype.endsWith = function(suffix) {
+            return this.indexOf(suffix, this.length - suffix.length) !== -1;
+        };
     <% _.each (datas, function(data, index) { %>
-        var html = '<img src="<%= data %>" alt="<%= data %>" class="photo" data-index="<%= index %>"/>';
+        var html;
+            if ('<%= data %>'.endsWith('avi')) {
+                html = '<video src="<%= data %>" data-filename="<%= data %>" data-index="<%= index %>"  class="photo"></video>'
+            }else {
+                html = '<img src="<%= data %>" alt="<%= data %>" class="photo" data-index="<%= index %>" />';
+            }
         $('#image-grid').append(html);
         <% if (index == 0) { %>
-            $('#selected-image').attr('src','<%= data %>');
-            $('#selected-image').attr('alt','<%= data %>');
+            if ('<%= data %>'.endsWith('avi')) {
+                $('#selected-video').attr('src','<%= data %>' );
+                $('#selected-video').attr('alt','<%= data %>' );
+            }else {
+                $('#selected-image').attr('src','<%= data %>' );
+                $('#selected-image').attr('alt','<%= data %>' );
+            }
         <% } %>
     <% }); %>
 
     $('.photo').on('click', function(){
-        $('#selected-image').attr('src', this.src);
-        $('#selected-image').attr('alt', this.alt);
+            if (this.alt) {
+                $('#selected-image').show();
+                $('#selected-video').hide();
+                $('#selected-image').attr('src', this.src);
+                $('#selected-image').attr('alt', this.alt);
+ 
+            }else {
+                $('#selected-video').show();
+                $('#selected-image').hide();
+                $('#selected-video').attr('src', this.src).get(0).load();
+                $('#selected-video').get(0).play();
+                $('#selected-video').attr('data-filename', this.dataset.filename);
+            }
+        
     });
     $('#bin').on('click', function(){
         var jsonData = { photo: $('#selected-image').attr('alt')};
