@@ -86,7 +86,7 @@ board.on('ready', function(){
 	button.on("hold", function(){
 		console.log('hold');
 		up = true;
-		streamer = childProcess.exec('streamer -q -c /dev/video0 -f rgb24 -r 5 -t 0:05 -o video' + new Date().getTime() + '.avi'), 
+		streamer = childProcess.exec('streamer -q -c /dev/video0 -f rgb24 -r 5 -t 0:05 -o ./photos/video' + new Date().getTime() + '.avi'), 
 		function (error, stdout, stderr) {
 			if (error) {
 				console.log(error.stack);
