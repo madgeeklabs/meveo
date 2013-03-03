@@ -1,6 +1,6 @@
 
-define(['express','http','fs','module', 'path', 'web','johnny-five','child_process'], 
-	function (express, http, fs, module, path, Web, five, childProcess) {
+define(['express','http','fs','module', 'path', 'web','johnny-five','child_process', 'post','userweb'], 
+	function (express, http, fs, module, path, Web, five, childProcess, Post, UserWeb) {
 		var app = express();
 	// INIT BOARD
 	var board,button,streamer;
@@ -29,6 +29,10 @@ define(['express','http','fs','module', 'path', 'web','johnny-five','child_proce
 
 	app.get('/album', webi.draw);
 
+	var userWeb = new UserWeb();
+
+	app.get('/user', userWeb.draw);
+
 	setInterval(function(){
 		streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg'), 
 		function (error, stdout, stderr) {
@@ -44,8 +48,6 @@ define(['express','http','fs','module', 'path', 'web','johnny-five','child_proce
 		streamer.on('exit', function (code) {
 			console.log('Child process exited with exit code ' + code);
 		});
-	}, 300000 );
-
 
 	board = new five.Board();
 	console.log(board);
@@ -184,4 +186,4 @@ var PulseSampler= function(board) {
 
 	}
 
-}
+
