@@ -114,56 +114,60 @@ var PulseSampler= function(board) {
 	this.secondBeat = true;       // used to seed rate array so we startup with reasonable BPM
 	this.Pulse= false;
 
-	board.pinMode(13,1);    // pin 13 will blink to your heartbeat!
-	board.pinMode(A0,2);    // pin 13 will blink to your heartbeat!
+	this.board.pinMode(13,1);    // pin 13 will blink to your heartbeat!
+	this.board.pinMode(A0,2);    // pin 13 will blink to your heartbeat!
 
 	this.sample=sample;
-	function sample() {
+
+        // Read the pulse sensor. The parameter is the sample rate in milliseconds. Original value is 1ms
+	function sample(interval) {
 		console.log(".");
-		/*
+		
 		// Timer 1 makes sure that we take a reading every milisecond
-		analogRead(A0,function(Signal){
+		this.board.analogRead(0x16,function(Signal){
+				console.log("Analog read callback");
 
-		this.sampleCounter++;                // keep track of the time with this variable (ISR triggered every 1mS
-
-		//  NOW IT'S TIME TO LOOK FOR THE HEART BEAT
-		vat H = this.sampleCounter-this.lastBeatTime;      // monitor the time since the last beat to avoid noise
-		if ( (Signal > 520) && (Pulse == false) && (H > 500) ){  
-		// signal surges up in value every time there is a pulse    
-		this.Pulse = true;                       // set the Pulse flag when we think there is a pulse
-		digitalWrite(13,1);              // turn on pin 13 LED
-		HRV = sampleCounter - lastBeatTime; // measure time between beats in mS
-		lastBeatTime = sampleCounter;       // keep track of time for next pulse
-		if(firstBeat){                      // if it's the first time we found a beat
-		firstBeat = false;                // clear firstBeat flag
-		return;                           // HRV value is unreliable so discard it
-		}   
-		if(secondBeat){                     // if this is the second beat
-		secondBeat = false;               // clear secondBeat flag
-		for(var i=0; i<=9; i++){          // seed the running total to get a realisitic BPM at startup
-		rate[i] = HRV;                      
-		}
-		}                          
-		// keep a running total of the last 10 HRV values
-		for(int i=0; i<=8; i++){
-		rate[i] = rate[i+1];          // shift data in the rate array and drop the oldest HRV value 
-		}
-		rate[9] = HRV;                    // add the latest HRV to the rate array
-		runningTotal = 0;                 // clear the runningTotal variable
-		for(var i=0; i<=9; i++){
-		runningTotal += rate[i];        // add up the last 10 HRV values
-		}  
-		runningTotal /= 10;               // average the last 10 HRV values 
-		BPM = 60000/runningTotal;         // how many beats can fit into a minute? that's BPM!
-		QS = true;                        // set Quantified Self flag when beat is found and BPM gets updated. 
-		// QS FLAG IS NOT CLEARED INSIDE THIS ISR
-		} 
-		if (Signal < 500 && Pulse == true){   // when the values are going down, it's the time between beats
-		digitalWrite(13,0);               // turn off pin 13 LED
-		Pulse = false;                      // reset the Pulse flag so we can do it again!
-		}
+				this.sampleCounter+=interval;                // keep track of the time with this variable (ISR triggered every 1mS originally, nos it is a parameter)
+				//  NOW IT'S TIME TO LOOK FOR THE HEART BEAT
+				var H = this.sampleCounter-this.lastBeatTime;      // monitor the time since the last beat to avoid noise
+				if ( (Signal > 520) && (Pulse == false) && (H > 500) ){  
+					// signal surges up in value every time there is a pulse    
+					this.Pulse = true;                       // set the Pulse flag when we think there is a pulse
+					board.digitalWrite(13,1);              // turn on pin 13 LED
+					var HRV = sampleCounter - lastBeatTime; // measure time between beats in mS
+					lastBeatTime = sampleCounter;       // keep track of time for next pulse
+					if(firstBeat){                      // if it's the first time we found a beat
+						firstBeat = false;                // clear firstBeat flag
+						return;                           // HRV value is unreliable so discard it
+					}   
+					if(secondBeat){                     // if this is the second beat
+						secondBeat = false;               // clear secondBeat flag
+						for(var i=0; i<=9; i++){          // seed the running total to get a realisitic BPM at startup
+							rate[i] = HRV;                      
+						}
+					}                          
+					// keep a running total of the last 10 HRV values
+					for(var i=0; i<=8; i++){
+						rate[i] = rate[i+1];          // shift data in the rate array and drop the oldest HRV value 
+					}
+					rate[9] = HRV;                    // add the latest HRV to the rate array
+					runningTotal = 0;                 // clear the runningTotal variable
+					for(var i=0; i<=9; i++){
+						runningTotal += rate[i];        // add up the last 10 HRV values
+					}  
+					runningTotal /= 10;               // average the last 10 HRV values 
+					BPM = 60000/runningTotal;         // how many beats can fit into a minute? that's BPM!
+					QS = true;                        // set Quantified Self flag when beat is found and BPM gets updated. 
+					// QS FLAG IS NOT CLEARED INSIDE THIS ISR
+/*****************
+****************/
+				} 
+				if (Signal < 500 && Pulse == true){   // when the values are going down, it's the time between beats
+					digitalWrite(13,0);               // turn off pin 13 LED
+					Pulse = false;                      // reset the Pulse flag so we can do it again!
+				}
 		});  // read the Pulse Sensor 
-		 */
+
 	}
 
 }
