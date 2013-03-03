@@ -52,9 +52,17 @@
 <section id="image-grid" class="img-grid">
 </section>
 <script>
+        String.prototype.endsWith = function(suffix) {
+            return this.indexOf(suffix, this.length - suffix.length) !== -1;
+        };
 var pintarUnArrayDeImagenes = function (){
     <% _.each (datas, function(data) { %>
-        var html = '<a href=<%= data %> ><img src=" <%= data %> " alt="Nuestro dia en la hackaton" class="photo" /></a>';
+            var html;
+            if ('<%= data %>'.endsWith('avi')) {
+                html = '<a href="<%= data %>" ><img src="img/video.jpg"class="photo" data-filename="<%= data %>" /></a>'
+            }else {
+                html = '<a href=<%= data %> ><img src=" <%= data %> " alt="Nuestro dia en la hackaton" class="photo" /></a>';
+            }
         $('#image-grid').append(html);
         <% }); %>
 };
