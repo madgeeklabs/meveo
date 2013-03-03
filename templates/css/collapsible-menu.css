@@ -2,13 +2,8 @@
 /* CSS Document */
 
 body {
-     font:"Trebuchet MS", Arial, Helvetica, sans-serif;
+     font-family: Helvetica, Arial, sans-serif;
 }
-
-a {
-     text-decoration: none;
-}
-
 
 #slideMenu, #navFade, #navGrowShrink, #navAccordion {
      float: left;
@@ -19,9 +14,8 @@ a {
 }
 
 .collapsibleMenu {
-     font-size: 90%;
      list-style: none;
-     margin: 0;
+     margin: -5px;
      padding: 0;
      vertical-align: top;
      width: 180px;
@@ -40,7 +34,7 @@ a {
 
 #slideMenu li, #fadeMenu li, #growShrinkMenu li, #accordionMenu li, .collapsibleMenu li {
      background-image: none;
-     margin: 0;
+     margin-left: 12px;
      padding: 0;
 }
 
@@ -48,32 +42,29 @@ a {
      display: block;
 }
 
+
 .collapsibleMenu ul ul li a {
      padding-left: 20px;
      width: 154px;
 }
 
 .collapsibleMenu a {
-     color: #000;
+     color: #999;
      cursor: pointer;
      display: block;
-     font-weight: bold;
+     /*font-weight: bold;*/
      margin-left: 0;
      padding: 9px 2px 2px 22px;
      width: 152px;
 }
 
 .collapsibleMenu a.expanded {
-	background: #00d4d5 url('../img/minus_25.png') no-repeat -2px 50%;
-	-moz-border-radius: 7px 7px 1px 1px;
-	border-radius: 7px 7px 1px 1px;
+	background: #EFECEA url('../img/arrow-down.png') no-repeat -2px 50%;
 	
 }
 
 .collapsibleMenu a.collapsed {
-     background: #00adaf url('../img/plus_25.png') no-repeat -2px 50%;
-     -moz-border-radius: 7px 7px 1px 1px;
-     border-radius: 7px 7px 1px 1px;
+     background: url('../img/arrow-right.png') no-repeat -2px 50%;
 }
 
 .collapsibleMenu a:hover {
@@ -81,41 +72,31 @@ a {
 }
 
 .collapsibleMenu ul a {
-     background: #6db2ab;
-     border-top: 1px solid #657c7c;
-     color: #000;
+     color: #999;
      display: block;
      font-weight: normal;
      padding: 2px 2px 2px 10px;
      width: 164px;
+     text-decoration: none;
 }
 
 .collapsibleMenu ul a:link {
      font-weight: normal;
 }
 
-.collapsibleMenu ul a:hover {
-     background : #c1ebec;
-     text-decoration: underline;
-}
-
 .collapsibleMenu li.active a {
      background: #fff;
 }
 
-.collapsibleMenu li.active li a {
-     background: #e8e8e8;
-}
-
 #slideMenu li.footer, #fadeMenu li.footer, #growShrinkMenu li.footer, #accordionMenu li.footer, .collapsibleMenu .footer {
-     border-top: 2px solid #657c7c;
-     background: #657c7c;
-     height: 9px;
+/*     border-top: 2px solid #657c7c;
+*//*     background: #657c7c;
+*/     height: 9px;
      line-height: 17px;
      margin: 0px 0 10px 0;
      -moz-border-radius: 0px 0px 7px 0px;
-     border-radius: 0px 0px 7px 0px;
-     border: solid 2px #657c7c;
+     /*border-radius: 0px 0px 7px 0px;*/
+     /*border: solid 2px #657c7c;*/
      width:172px;
 }
 
