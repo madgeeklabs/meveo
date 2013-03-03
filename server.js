@@ -60,7 +60,20 @@ board.on('ready', function(){
 	});
 
 	button.on("down", function(){
-		console.log('down');
+		streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg'), 
+		function (error, stdout, stderr) {
+			if (error) {
+				console.log(error.stack);
+				console.log('Error code: '+error.code);
+				console.log('Signal received: '+error.signal);
+			}
+			console.log('Child Process STDOUT: '+stdout);
+			console.log('Child Process STDERR: '+stderr);
+		}
+
+		streamer.on('exit', function (code) {
+			console.log('Child process exited with exit code ' + code);
+		});
 	});
 
 	button.on("hold", function(){
