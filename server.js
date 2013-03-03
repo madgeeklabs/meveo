@@ -62,9 +62,7 @@ button: button
 });
 
 			var sampler = new PulseSampler(board);
-			setInterval(function(){
-				sampler.sample();
-				},3000);
+			sampler.startSampling();
 			console.log("after Sample!!");
 
 			button.on("down", function(){
@@ -104,67 +102,83 @@ return app;
 var PulseSampler= function(board) {
 	console.log("Constructing pulse sampler");
 	this.board=board;
-	this.sampleCounter=0;
 	this.lastBeatTime=0;
-	this.rate;                    // 10 element array used to get running average of HRV values
+	this.rate = new Array();                    // 10 element array used to get running average of HRV values
 	this.lastBeatTime = 0;  // used to find the time between beats
-	this.sampleCounter;               // used to determine pulse timing
+	this.sampleCounter=0;               // used to determine pulse timing
 	this.runningTotal;                // used to keep track of pulses
 	this.firstBeat = true;        // used to seed rate array so we startup with reasonable BPM
 	this.secondBeat = true;       // used to seed rate array so we startup with reasonable BPM
 	this.Pulse= false;
+	this.BPM=0;
+	this.QS=false;
 
 	this.board.pinMode(13,1);    // pin 13 will blink to your heartbeat!
-	this.board.pinMode(A0,2);    // pin 13 will blink to your heartbeat!
+	this.board.pinMode(0,2);    // Analog Pulse read 
 
-	this.sample=sample;
+	this.startSampling=startSampling;
+        var that = this;
 
         // Read the pulse sensor. The parameter is the sample rate in milliseconds. Original value is 1ms
-	function sample(interval) {
+	function startSampling() {
 		console.log(".");
 		
 		// Timer 1 makes sure that we take a reading every milisecond
-		this.board.analogRead(0x16,function(Signal){
-				console.log("Analog read callback");
+		that.board.analogRead(0,function(Signal){
 
-				this.sampleCounter+=interval;                // keep track of the time with this variable (ISR triggered every 1mS originally, nos it is a parameter)
+				that.sampleCounter++;                // keep track of the time with this variable (ISR triggered every 1mS originally, nos it is a parameter)
+				var time = new Date().getMilliseconds();
 				//  NOW IT'S TIME TO LOOK FOR THE HEART BEAT
-				var H = this.sampleCounter-this.lastBeatTime;      // monitor the time since the last beat to avoid noise
-				if ( (Signal > 520) && (Pulse == false) && (H > 500) ){  
+				var H = time-that.lastBeatTime;      // monitor the time since the last beat to avoid noise
+				if ( (Signal > 520) && (that.Pulse == false) && (H > 500) ){  
+					console.log("BPM: "+that.BPM+" QS: "+that.QS+" Signal: "+ Signal+ " _________    Pulse On");
+
 					// signal surges up in value every time there is a pulse    
-					this.Pulse = true;                       // set the Pulse flag when we think there is a pulse
-					board.digitalWrite(13,1);              // turn on pin 13 LED
-					var HRV = sampleCounter - lastBeatTime; // measure time between beats in mS
-					lastBeatTime = sampleCounter;       // keep track of time for next pulse
-					if(firstBeat){                      // if it's the first time we found a beat
-						firstBeat = false;                // clear firstBeat flag
-						return;                           // HRV value is unreliable so discard it
+					that.Pulse = true;                       // set the Pulse flag when we think there is a pulse
+					// that.board.digitalWrite(13,1);              // turn on pin 13 LED
+					var HRV = time- that.lastBeatTime; // measure time between beats in mS
+					that.lastBeatTime = time;       // keep track of time for next pulse
+					console.log(".");
+					if(that.firstBeat){                      // if it's the first time we found a beat
+						that.firstBeat = false;                // clear firstBeat flag
+						console.log("first Beat");
+						//return;                           // HRV value is unreliable so discard it
 					}   
-					if(secondBeat){                     // if this is the second beat
-						secondBeat = false;               // clear secondBeat flag
+					console.log("fb_______");
+					if(that.secondBeat){                     // if this is the second beat
+						that.secondBeat = false;               // clear secondBeat flag
+						console.log("second Beat");
 						for(var i=0; i<=9; i++){          // seed the running total to get a realisitic BPM at startup
-							rate[i] = HRV;                      
+							that.rate[i] = HRV;                      
 						}
 					}                          
+					console.log("sb______");
 					// keep a running total of the last 10 HRV values
 					for(var i=0; i<=8; i++){
-						rate[i] = rate[i+1];          // shift data in the rate array and drop the oldest HRV value 
+						that.rate[i] = that.rate[i+1];          // shift data in the rate array and drop the oldest HRV value 
 					}
-					rate[9] = HRV;                    // add the latest HRV to the rate array
-					runningTotal = 0;                 // clear the runningTotal variable
+					that.rate[9] = HRV;                    // add the latest HRV to the rate array
+					that.runningTotal = 0;                 // clear the runningTotal variable
 					for(var i=0; i<=9; i++){
-						runningTotal += rate[i];        // add up the last 10 HRV values
+						that.runningTotal += that.rate[i];        // add up the last 10 HRV values
 					}  
-					runningTotal /= 10;               // average the last 10 HRV values 
-					BPM = 60000/runningTotal;         // how many beats can fit into a minute? that's BPM!
-					QS = true;                        // set Quantified Self flag when beat is found and BPM gets updated. 
+					that.runningTotal /= 10;               // average the last 10 HRV values 
+					that.BPM = 60000/that.runningTotal;         // how many beats can fit into a minute? that's BPM!
+					that.QS = true;                        // set Quantified Self flag when beat is found and BPM gets updated. 
+					console.log("__BPM: "+that.BPM+"QS: "+that.QS);
 					// QS FLAG IS NOT CLEARED INSIDE THIS ISR
-/*****************
-****************/
 				} 
-				if (Signal < 500 && Pulse == true){   // when the values are going down, it's the time between beats
-					digitalWrite(13,0);               // turn off pin 13 LED
+				else if (Signal < 500 && that.Pulse == true){   // when the values are going down, it's the time between beats
+				        console.log("BPM: "+that.BPM+" QS: "+that.QS+" Signal: "+ Signal+ " |            ");
+					//that.board.digitalWrite(13,0);               // turn off pin 13 LED
 					Pulse = false;                      // reset the Pulse flag so we can do it again!
+				}
+				else {
+					if (that.Pulse == true) {
+						console.log("BPM: "+that.BPM+" QS: "+that.QS+" Signal: "+ Signal+ "         |           ");
+ 					} else {
+						console.log("BPM: "+that.BPM+" QS: "+that.QS+" Signal: "+ Signal+ " |                 off ");
+					}
 				}
 		});  // read the Pulse Sensor 
 
