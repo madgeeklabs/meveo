@@ -28,7 +28,7 @@
     <% _.each (datas, function(data, index) { %>
         var html;
             if ('<%= data %>'.endsWith('avi')) {
-                html = '<video src="<%= data %>" data-filename="<%= data %>" data-index="<%= index %>"  class="photo"></video>'
+                html = '<a href="<%= data %>" ><img src="img/video.jpg"class="photo" data-filename="<%= data %>" /></a>'
             }else {
                 html = '<img src="<%= data %>" alt="<%= data %>" class="photo" data-index="<%= index %>" />';
             }
@@ -51,14 +51,7 @@
                 $('#selected-image').attr('src', this.src);
                 $('#selected-image').attr('alt', this.alt);
  
-            }else {
-                $('#selected-video').show();
-                $('#selected-image').hide();
-                $('#selected-video').attr('src', this.src).get(0).load();
-                $('#selected-video').get(0).play();
-                $('#selected-video').attr('data-filename', this.dataset.filename);
-            }
-        
+            }        
     });
     $('#bin').on('click', function(){
         var jsonData = { photo: $('#selected-image').attr('alt')};
