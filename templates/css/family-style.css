@@ -57,12 +57,7 @@ h1, h2, h3 {
 }
 
 h2 {
-	font-weight: bold;
-	text-align: center;
-}
-
-h3 {
-	text-align: center;
+	font-size: 28px;
 }
 
 
@@ -75,36 +70,69 @@ header {
 }
 
 .logo-img {
-	display: block;
-	width: 180px;
+	float: left;
+	width: 280px;
 	margin-left: 30px;
-	padding: 30px 0;
+	padding: 20px 0 30px 0;
+}
+
+.album-info {
+	position: relative;
+	margin: 0 auto;
+	left: 12%;
+	color: #FFF;
+	margin-top: 44px;
+	float: left;
+}
+
+#tags {
+	float: right;
+	display: inline-block;
+	margin-right: 30px;
+	margin-top: 30px;
 }
 
 
 /* Search bar */
 
 .search-bar {
-	background-color: #313131;
-	padding: 10px 0;
-	border: 1px solid #121212;
+	clear: both;
+	background-color: #EFECEA;
+	border: 1px solid #E6E6E6;
 	padding-left: 27px;
+	overflow: auto; 
+}
+
+#claim {
+	margin-top: 10px;
+	float: left;
+	display: inline-block;
+	color: #999;
+}
+
+.box {
+	float: left;
+	display: inline-block;
+}
+
+.date {
+	margin-left: 12%;
 }
 
 .search-bar .text {
-	color: #818181;
+	color: #999;
+	font-size: 14px;
 }
 
 .search-bar .box {
 	float: left;
 }
 
+.line-separator {
+	width: 2px;
+	background-color: #000;
+	border-left: 1px solid #999;
 
-.album-info {
-	display: inline-block;
-	border-left: 1px solid #FFF;
-	display: inline;
-	margin: 0 auto;
 }
 
 /* GRID */
@@ -115,11 +143,30 @@ header {
 }
 
 .photo {
-	width: 260px;
+	width: 230px;
 	float: left;
-	margin: 8px;
+	margin-right: 15px;
 }
 
 .photo:hover {
 	box-shadow: 5px;
 }
+
+/* FOOTER */
+
+footer {
+	clear: both;
+	position: fixed;
+	top: 90%;
+	padding-left: 20px;
+	background-color: #FFF;
+	opacity: 0.8;
+	filter:alpha(opacity=80);
+	width: 100%;
+}
+
+footer p {
+  margin:30px 40px;
+  color:#000000;
+  font-weight: normal;
+  }
