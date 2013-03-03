@@ -12,8 +12,8 @@
         <img src="img/empty-bin.png" alt="eliminar">
         </div>
        <div id="selected-img">
-        <p>3 de Marzo 2013</p>
-        <img src="img/retiro1.jpg" alt="imagen seleccionada" width="480px">
+        <p>Marzo 03</p>
+        <img src="" id="selected-image" alt="imagen seleccionada">
     </div>
     <div id="save">
         <img src="img/save.png" alt="guardar">
@@ -21,19 +21,29 @@
 </div>
 <section id="image-grid">
     <script>
-    var pintarUnArrayDeImagenes = function (imgArray){
-        for(img in imgArray)    {
-            var html = '<img src="' + imgArray[img] + '" alt="Imágen del retiro" class="photo" />'
-            $('#image-grid').append(html);
-        }
-    }
+    <% _.each (datas, function(data, index) { %>
+        var html = '<img src="<%= data %>" alt="<%= data %>" class="photo" data-index="<%= index %>"/>';
+        $('#image-grid').append(html);
+        <% if (index == 0) { %>
+            $('#selected-image').attr('src','<%= data %>');
+            $('#selected-image').attr('alt','<%= data %>');
+        <% } %>
+    <% }); %>
 
-    var imgArray = []
-    for(var i = 1; i < 7; i++){
-        var str = "img/retiro" + i + ".jpg";
-        imgArray.push(str);
-    }
-    pintarUnArrayDeImagenes(imgArray);
+    $('.photo').on('click', function(){
+        $('#selected-image').attr('src', this.src);
+        $('#selected-image').attr('alt', this.alt);
+    });
+    $('#bin').on('click', function(){
+        var jsonData = { photo: $('#selected-image').attr('alt')};
+        console.log($('#selected-image').attr('alt'));
+        var request = $.ajax({
+            url: "/api/remove",
+            type: "post",
+            data: jsonData
+        }); 
+        $('#selected-image').attr('src', this.src);
+    });
     </script>
 </section>
 </body>
