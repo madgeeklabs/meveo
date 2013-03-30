@@ -1,10 +1,12 @@
+define(['express','http','fs','module', 'path', 'web','gpio','child_process', 'post','userweb'], 
+function (express, http, fs, module, path, Web, five, childProcess, Post, UserWeb) {
 
-define(['express','http','fs','module', 'path', 'web','johnny-five','child_process', 'post','userweb'], 
-	function (express, http, fs, module, path, Web, five, childProcess, Post, UserWeb) {
-		var app = express();
-	// INIT BOARD
-	var board,button,streamer;
+	var app = express();
+	var streamer,gpio,gpio17;
 	var up = false;
+
+	// To block webcam untill current capture finishes
+	var blockWebcam = false;  
 
 	app.configure(function(){
 		app.use(express.bodyParser());
@@ -29,87 +31,42 @@ define(['express','http','fs','module', 'path', 'web','johnny-five','child_proce
 
 	app.get('/user', userWeb.draw);
 
-	setInterval(function(){
-		streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg'), 
-		function (error, stdout, stderr) {
-			if (error) {
-				console.log(error.stack);
-				console.log('Error code: '+error.code);
-				console.log('Signal received: '+error.signal);
-			}
-			console.log('Child Process STDOUT: '+stdout);
-			console.log('Child Process STDERR: '+stderr);
-		}
-
-		streamer.on('exit', function (code) {
-			console.log('Child process exited with exit code ' + code);
-		});
-    }, 300000 );
-
 	var postMe = new Post();
 	app.post('/api/remove', postMe.deleteFile);
 
-board = new five.Board();
-console.log(board);
+	//HANDLE HARDWARE CODE (gpio)
+	var gpio = require("gpio");
+	var gpio17 = gpio.export(4, {
+		direction: "in",
+		ready: function() {
+			gpio17.on("change", function(val){
+				if (val ==1 && !blockWebcam)
+				{
+					blockWebcam = true;
+					console.log("Say Cheese!");	
+					streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg', 
+						function (error, stdout, stderr) {
+							if (error) {
+								console.log(error.stack);
+								console.log('Error code: '+error.code);
+								console.log('Signal received: '+error.signal);
+							}
+							console.log('Child Process STDOUT: '+stdout);
+							console.log('Child Process STDERR: '+stderr);
+							
+							// Now we can take the next picture
+							blockWebcam = false;
+						});
 
-//HANDLE HARDWARE CODE
-board.on('ready', function(){
-	var val = 0;
-	button = new five.Button(4);
-
-	board.repl.inject({
-		button: button
-	});
-
-	button.on("up", function(){
-		if (!up) {
-		streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg'), 
-		function (error, stdout, stderr) {
-			if (error) {
-				console.log(error.stack);
-				console.log('Error code: '+error.code);
-				console.log('Signal received: '+error.signal);
-			}
-			console.log('Child Process STDOUT: '+stdout);
-			console.log('Child Process STDERR: '+stderr);
+					streamer.on('exit', function (code) {
+						console.log('Child process exited with exit code ' + code);
+						});
+				}
+			});
 		}
-
-		streamer.on('exit', function (code) {
-			console.log('Child process exited with exit code ' + code);
-		});
-		} else {
-			up = false;
-		}
-
 	});
 
-	button.on("hold", function(){
-		console.log('hold');
-		up = true;
-		streamer = childProcess.exec('streamer -q -c /dev/video0 -f rgb24 -r 5 -t 0:05 -o ./photos/video' + new Date().getTime() + '.avi'), 
-		function (error, stdout, stderr) {
-			if (error) {
-				console.log(error.stack);
-				console.log('Error code: '+error.code);
-				console.log('Signal received: '+error.signal);
-			}
-			console.log('Child Process STDOUT: '+stdout);
-			console.log('Child Process STDERR: '+stderr);
-		}
-
-		streamer.on('exit', function (code) {
-			console.log('Child process exited with exit code ' + code);
-		});
-	});
-
-	this.pinMode(13,1);
-	
-	this.loop(450, function() {
-		this.digitalWrite(13,(val = val ? 0 : 1 ));
-	});
-});
-
-return app;
+	return app;
 
 });
 
