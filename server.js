@@ -2,7 +2,7 @@ define(['express','http','fs','module', 'path', 'web','gpio','child_process', 'p
 function (express, http, fs, module, path, Web, five, childProcess, Post, UserWeb) {
 
 	var app = express();
-	var streamer,gpio,gpio17;
+	var player,streamer,gpio,gpio17;
 	var up = false;
 
 	// To block webcam untill current capture finishes
@@ -43,23 +43,36 @@ function (express, http, fs, module, path, Web, five, childProcess, Post, UserWe
 				if (val ==1 && !blockWebcam)
 				{
 					blockWebcam = true;
-					console.log("Say Cheese!");	
-					streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg', 
-						function (error, stdout, stderr) {
+
+					player = childProcess.exec('aplay foto.wav',
+						function(error,stdout,stderr){
 							if (error) {
 								console.log(error.stack);
-								console.log('Error code: '+error.code);
-								console.log('Signal received: '+error.signal);
+								console.log('player: Error code: '+error.code);
 							}
-							console.log('Child Process STDOUT: '+stdout);
-							console.log('Child Process STDERR: '+stderr);
-							
-							// Now we can take the next picture
-							blockWebcam = false;
+							console.log('player Child Process STDOUT: '+stdout);
+							console.log('player Child Process STDERR: '+stderr);
 						});
+					player.on('exit', function (code) {
 
-					streamer.on('exit', function (code) {
-						console.log('Child process exited with exit code ' + code);
+						console.log("Say Cheese!");	
+						streamer = childProcess.exec('streamer -f jpeg -o ./photos/image' + new Date().getTime() + '.jpeg', 
+							function (error, stdout, stderr) {
+								if (error) {
+									console.log(error.stack);
+									console.log('Error code: '+error.code);
+									console.log('Signal received: '+error.signal);
+								}
+								console.log('Child Process STDOUT: '+stdout);
+								console.log('Child Process STDERR: '+stderr);
+							
+								// Now we can take the next picture
+								blockWebcam = false;
+							});
+
+						streamer.on('exit', function (code) {
+							console.log('Child process exited with exit code ' + code);
+							});
 						});
 				}
 			});
