@@ -2,7 +2,7 @@ define(['express','http','fs','module', 'path', 'web','gpio','child_process', 'p
 function (express, http, fs, module, path, Web, five, childProcess, Post, UserWeb) {
 
 	var app = express();
-	var player,streamer,gpio,gpio17;
+	var player,streamer,gpio,gpio4;
 	var up = false;
 
 	// To block webcam untill current capture finishes
@@ -36,10 +36,10 @@ function (express, http, fs, module, path, Web, five, childProcess, Post, UserWe
 
 	//HANDLE HARDWARE CODE (gpio)
 	var gpio = require("gpio");
-	var gpio17 = gpio.export(4, {
+	var gpio4 = gpio.export(4, {
 		direction: "in",
 		ready: function() {
-			gpio17.on("change", function(val){
+			gpio4.on("change", function(val){
 				if (val ==1 && !blockWebcam)
 				{
 					blockWebcam = true;
